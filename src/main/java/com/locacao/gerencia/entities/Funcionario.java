@@ -1,6 +1,10 @@
 package com.locacao.gerencia.entities;
 
 import jakarta.persistence.*;
+
+import java.util.List;
+import java.util.Set;
+
 @Entity
 public class Funcionario {
 
@@ -9,8 +13,11 @@ public class Funcionario {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_setor", nullable = false)
+    @JoinColumn(name = "id_setor")
     private Setor setor;
+
+    @OneToMany(mappedBy = "funcionario")
+    private List<Locar> locacao;
 
     @Column(nullable = false)
     private String nome;
