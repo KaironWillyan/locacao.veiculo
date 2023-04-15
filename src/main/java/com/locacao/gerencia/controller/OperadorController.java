@@ -62,7 +62,7 @@ public class OperadorController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("operador/{id}")
+    @DeleteMapping("/operador/{id}")
     public ResponseEntity<Operador> DeleteOperador(@PathVariable(value = "id") Long id){
         Optional<Operador> operador = operadorRepository.findById(id);
         if (operador.isPresent()){

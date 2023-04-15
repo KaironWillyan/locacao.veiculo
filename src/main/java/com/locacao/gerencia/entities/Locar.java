@@ -1,9 +1,14 @@
 package com.locacao.gerencia.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import org.hibernate.metamodel.mapping.internal.GeneratedValuesProcessor;
 
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Locar {
@@ -13,20 +18,22 @@ public class Locar {
 
     @ManyToOne
     @JoinColumn(name = "id_funcionario")
-    Funcionario funcionario;
+    private Funcionario funcionario;
 
     @ManyToOne
     @JoinColumn(name = "id_operador")
-    Operador operador;
+    private Operador operador;
 
     @ManyToOne
     @JoinColumn(name = "id_veiculo")
-    Veiculo veiculo;
+    private Veiculo veiculo;
 
     @Column(nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     Calendar dt_locacao;
 
     @Column
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     Calendar dt_entrega;
 
     @Column(nullable = false)
@@ -37,11 +44,7 @@ public class Locar {
 
     public Locar(){}
 
-    public Locar(Long id, Funcionario funcionario, Operador operador, Veiculo veiculo, Calendar dt_locacao, Calendar dt_entrega, Integer km_locacao, Integer km_entrega) {
-        this.id = id;
-        this.funcionario = funcionario;
-        this.operador = operador;
-        this.veiculo = veiculo;
+    public Locar(Calendar dt_locacao, Calendar dt_entrega, Integer km_locacao, Integer km_entrega) {
         this.dt_locacao = dt_locacao;
         this.dt_entrega = dt_entrega;
         this.km_locacao = km_locacao;

@@ -3,7 +3,9 @@ package com.locacao.gerencia.entities;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Veiculo {
@@ -24,8 +26,8 @@ public class Veiculo {
     @Column(nullable = false)
     private String tipo_combustivel;
 
-    @OneToMany(mappedBy = "veiculo")
-    private List<Locar> locacao;
+    @OneToMany(mappedBy = "veiculo", targetEntity = Locar.class)
+    private Set<Locar> locacao;
 
     public Veiculo() {
     }

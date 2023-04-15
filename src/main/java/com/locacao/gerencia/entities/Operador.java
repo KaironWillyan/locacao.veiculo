@@ -3,6 +3,7 @@ package com.locacao.gerencia.entities;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ public class Operador {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "operador")
+    @OneToMany(mappedBy = "operador", targetEntity = Locar.class)
     private List<Locar> locar;
 
     @Column(nullable = false)
