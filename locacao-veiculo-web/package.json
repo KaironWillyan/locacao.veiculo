@@ -1,0 +1,20 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@types/bootstrap": "^5.2.6",
+    "@types/node": "^18",
+    "nuxt": "^3.4.2"
+  },
+  "dependencies": {
+    "axios": "^1.3.6",
+    "bootstrap": "^5.2.3"
+  }
+}
