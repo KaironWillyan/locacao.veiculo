@@ -1,5 +1,5 @@
 export interface veiculoDto {
-    id                  :number;
+    id                  ?:number;
     placa               :string;
     cor                 :string;
     modelo              :string;

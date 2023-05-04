@@ -18,8 +18,8 @@ async function addVeiculo() {
         modelo: data.value.modelo,
         placa: data.value.placa,
         tipo_combustivel: data.value.tipo_combustivel,
-      })
-      .then((res: any) => data.value = res.data)
+    })
+    .then((res: any) => data.value = res.data)
 }
 
 </script>

@@ -1,30 +1,35 @@
-<script lang>
+<script lang="ts">
+import { Axios } from 'axios';
+import AddFuncionario from '~/components/funcionario/AddFuncionario.vue';
+
 definePageMeta({
   layout: 'default'
 })
 
 export default defineComponent ({
     setup() {
-      const funcionario = ref([]);
-      const context = useNuxtApp();
-
-      const fetchFuncionario = async () => 
-      await
-        context.$axios
-         .get("/funcionario")
-         .then((response) => (funcionario.value = response.data));
-
-      onMounted(fetchFuncionario);
-      return {funcionario};
+        const funcionarios = ref([]);
+        const axios = useNuxtApp().$axios;
+        const fetchFuncionario = async () => await (axios as Axios)
+            .get("/funcionario")
+            .then((response) => (funcionarios.value = response.data));
+        onMounted(fetchFuncionario);
+        return { funcionarios };
     },
+    components: { AddFuncionario },
+    
 })
 </script>
 
 <template>
   <main>
-      <p>funcionario</p>
-      <p>{{ funcionario }}</p>
-      <p v-for="funcionarios in funcionario">{{ funcionarios }}</p>
+    <div>
+      <AddFuncionario/>
+
+    </div>
+
+      <p>funcionarios</p>
+      <p v-for="funcionario in funcionarios">{{ funcionario }}</p>
   
   </main>
 </template>

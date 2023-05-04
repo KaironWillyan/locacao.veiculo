@@ -6,4 +6,12 @@ export default defineNuxtConfig({
 
     },
     css: ["bootstrap/dist/css/bootstrap.min.css", "bootstrap/dist/css/bootstrap.css", "bootstrap/dist/css/bootstrap-utilities.css"],
+    modules: ['@pinia/nuxt'],
+    pinia: {
+        autoImports: [
+          // automatically imports `defineStore`
+          'defineStore', // import { defineStore } from 'pinia'
+          ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
+        ],
+    },
 })

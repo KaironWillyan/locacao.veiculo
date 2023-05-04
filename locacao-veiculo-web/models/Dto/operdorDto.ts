@@ -1,5 +1,5 @@
 export interface operadorDto {
-    id           :number;
+    id           ?:number;
     email        :string;
     password     :string;
     nome         :string;

@@ -3,10 +3,14 @@ import AddSetor from '~/components/setor/addSetor.vue';
 import { setorDto } from '~/models/Dto/setorDto';
 import { defineEmits } from 'vue'
 import { Axios } from 'axios';
+import vuex from '~/plugins/vuex';
 
-const emit = defineEmits<{
-  (e: 'atualizarSetores', setores: Array<setorDto>): any
-}>()
+// const emit = defineEmits<{
+//   (e: 'atualizarSetores', setores: Array<setorDto>): any
+// }>()
+
+const store = vuex
+console.log(store);
 
 export default defineComponent({
     setup() {
@@ -17,11 +21,11 @@ export default defineComponent({
             .then((response: any) => (setores.value = response.data));
         onMounted(fetchSetores);
 
-        function atualizarSetores(setoresFromEvent: Array<setorDto>) {
-          setores.value = setoresFromEvent
-        }
+        // function atualizarSetores(setoresFromEvent: Array<setorDto>) {
+        //   setores.value = setoresFromEvent
+        // }
 
-        return { setores, atualizarSetores };
+        return { setores };
     },
     components: { AddSetor },
     
