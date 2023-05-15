@@ -12,7 +12,7 @@ public class Funcionario {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_setor")
     private Setor setor;
 
@@ -26,18 +26,17 @@ public class Funcionario {
     private String cpf;
 
     @Column(nullable = false)
-    private String tipo_cnh;
+    private String tipoCnh;
 
     @Column(nullable = false)
     private String telefone;
 
-
     public Funcionario(){}
 
-    public  Funcionario(String nome, String cpf, String tipo_cnh, String telefone){
+    public  Funcionario(String nome, String cpf, String tipoCnh, String telefone){
         this.nome = nome;
         this.cpf = cpf;
-        this.tipo_cnh = tipo_cnh;
+        this.tipoCnh = tipoCnh;
         this.telefone = telefone;
     }
 
@@ -73,12 +72,7 @@ public class Funcionario {
         this.cpf = cpf;
     }
 
-    public String getTipo_cnh(){
-        return tipo_cnh;
-    }
-    public void setTipo_cnh(String tipo_cnh){
-        this.tipo_cnh = tipo_cnh;
-    }
+
 
     public  String getTelefone(){
         return  telefone;
@@ -86,5 +80,13 @@ public class Funcionario {
 
     public void setTelefone(String telefone){
         this.telefone = telefone;
+    }
+
+    public String getTipoCnh() {
+        return tipoCnh;
+    }
+
+    public void setTipoCnh(String tipoCnh) {
+        this.tipoCnh = tipoCnh;
     }
 }

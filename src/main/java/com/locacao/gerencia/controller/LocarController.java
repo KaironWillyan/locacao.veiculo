@@ -46,10 +46,10 @@ public class LocarController {
             locacao.setFuncionario(newLocar.getFuncionario());
             locacao.setOperador(newLocar.getOperador());
             locacao.setVeiculo(newLocar.getVeiculo());
-            locacao.setDt_locacao(newLocar.getDt_locacao());
-            locacao.setDt_entrega(newLocar.getDt_entrega());
-            locacao.setKm_locacao(newLocar.getKm_locacao());
-            locacao.setKm_entrega(newLocar.getKm_entrega());
+            locacao.setDtLocacao(newLocar.getDtLocacao());
+            locacao.setDtEntrega(newLocar.getDtEntrega());
+            locacao.setKmLocacao(newLocar.getKmLocacao());
+            locacao.setKmEntrega(newLocar.getKmEntrega());
             locarRepository.save(locacao);
             return new ResponseEntity<Locar>(locacao, HttpStatus.OK);
         }

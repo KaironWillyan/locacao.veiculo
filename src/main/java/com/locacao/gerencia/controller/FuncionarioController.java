@@ -18,7 +18,8 @@ public class FuncionarioController {
     @Autowired
     private FuncionarioRepository   funcionarioRepository;
 
-    @RequestMapping(value="/funcionario", method = RequestMethod.GET)
+    @CrossOrigin(origins = "http://localhost:8080")
+    @GetMapping("/funcionario")
     public List<Funcionario> GetFuncionario(){
         return funcionarioRepository.findAll();
     }
@@ -47,18 +48,22 @@ public class FuncionarioController {
 //    }
 
 
-    @RequestMapping(value = "/funcionario", method = RequestMethod.POST)
+    @PostMapping("/funcionario")
     public Funcionario PostFuncionario(@Validated @RequestBody Funcionario funcionario){
-        return funcionarioRepository.save(funcionario);
+        return funcionarioRepository.saveAndFlush(funcionario);
     }
 
-    @RequestMapping(value = "/funcionario/{id}", method = RequestMethod.PUT)
+    @PutMapping("/funcionario/{id}")
     public ResponseEntity<Funcionario> PutFuncionario(@PathVariable(value = "id") Long id, @Validated @RequestBody Funcionario newFuncionario)
     {
         Optional<Funcionario> oldFuncionario = funcionarioRepository.findById(id);
         if(oldFuncionario.isPresent()){
             Funcionario funcionario = oldFuncionario.get();
             funcionario.setNome(newFuncionario.getNome());
+            funcionario.setCpf(newFuncionario.getCpf());
+            funcionario.setTelefone(newFuncionario.getTelefone());
+            funcionario.setSetores(newFuncionario.getSetor());
+            funcionario.setTipoCnh(newFuncionario.getTipoCnh());
             funcionarioRepository.save(funcionario);
             return new ResponseEntity<Funcionario>(funcionario, HttpStatus.OK);
         }
@@ -67,7 +72,7 @@ public class FuncionarioController {
         );
     }
 
-    @RequestMapping(value = "/funcionario/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("/funcionario/{id}")
     public ResponseEntity<Funcionario> Deletefuncionario(@PathVariable(value = "id") Long id){
         Optional<Funcionario> funcionario = funcionarioRepository.findById((id));
         if (funcionario.isPresent()){
@@ -79,7 +84,7 @@ public class FuncionarioController {
         );
     }
 
-    @RequestMapping(value = "/funcionario", method = RequestMethod.DELETE)
+    @DeleteMapping("/funcionario")
     public ResponseEntity<Funcionario> DeleteAllFuncionario(){
         funcionarioRepository.deleteAll();
         return new ResponseEntity<>(HttpStatus.OK);

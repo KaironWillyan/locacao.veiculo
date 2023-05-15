@@ -16,7 +16,7 @@ public class Operador {
     @OneToMany(mappedBy = "operador", targetEntity = Locar.class)
     private List<Locar> locar;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
     @Column
     private String password;

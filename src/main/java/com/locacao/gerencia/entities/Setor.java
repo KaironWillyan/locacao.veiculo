@@ -1,6 +1,8 @@
 package com.locacao.gerencia.entities;
 
 import jakarta.persistence.*;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import java.util.List;
 
 @Entity

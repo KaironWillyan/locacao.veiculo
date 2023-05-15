@@ -1,11 +1,10 @@
 package com.locacao.gerencia.entities;
-
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import org.hibernate.metamodel.mapping.internal.GeneratedValuesProcessor;
 
-import java.util.Calendar;
+import java.sql.Timestamp;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,26 +28,26 @@ public class Locar {
     private Veiculo veiculo;
 
     @Column(nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    Calendar dt_locacao;
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Timestamp dtLocacao;
 
     @Column
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    Calendar dt_entrega;
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Timestamp dtEntrega;
 
     @Column(nullable = false)
-    Integer km_locacao;
+    Integer kmLocacao;
 
     @Column
-    Integer km_entrega;
+    Integer kmEntrega;
 
     public Locar(){}
 
-    public Locar(Calendar dt_locacao, Calendar dt_entrega, Integer km_locacao, Integer km_entrega) {
-        this.dt_locacao = dt_locacao;
-        this.dt_entrega = dt_entrega;
-        this.km_locacao = km_locacao;
-        this.km_entrega = km_entrega;
+    public Locar(Timestamp dtLocacao, Timestamp dtEntrega, Integer kmLocacao, Integer kmEntrega) {
+        this.dtLocacao = dtLocacao;
+        this.dtEntrega = dtEntrega;
+        this.kmLocacao = kmLocacao;
+        this.kmEntrega = kmEntrega;
     }
 
     public Long getId() {
@@ -83,35 +82,35 @@ public class Locar {
         this.veiculo = veiculo;
     }
 
-    public Calendar getDt_locacao() {
-        return dt_locacao;
+    public Timestamp getDtLocacao() {
+        return dtLocacao;
     }
 
-    public void setDt_locacao(Calendar dt_locacao) {
-        this.dt_locacao = dt_locacao;
+    public void setDtLocacao(Timestamp dtLocacao) {
+        this.dtLocacao = dtLocacao;
     }
 
-    public Calendar getDt_entrega() {
-        return dt_entrega;
+    public Timestamp getDtEntrega() {
+        return dtEntrega;
     }
 
-    public void setDt_entrega(Calendar dt_entrega) {
-        this.dt_entrega = dt_entrega;
+    public void setDtEntrega(Timestamp dtEntrega) {
+        this.dtEntrega = dtEntrega;
     }
 
-    public Integer getKm_locacao() {
-        return km_locacao;
+    public Integer getKmLocacao() {
+        return kmLocacao;
     }
 
-    public void setKm_locacao(Integer km_locacao) {
-        this.km_locacao = km_locacao;
+    public void setKmLocacao(Integer kmLocacao) {
+        this.kmLocacao = kmLocacao;
     }
 
-    public Integer getKm_entrega() {
-        return km_entrega;
+    public Integer getKmEntrega() {
+        return kmEntrega;
     }
 
-    public void setKm_entrega(Integer km_entrega) {
-        this.km_entrega = km_entrega;
+    public void setKmEntrega(Integer kmEntrega) {
+        this.kmEntrega = kmEntrega;
     }
 }
