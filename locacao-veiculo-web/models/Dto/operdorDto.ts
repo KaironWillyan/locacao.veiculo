@@ -6,3 +6,8 @@ export interface operadorDto {
     cpf          :string;
     tipo         :string;
 }
+
+// export enum TIPO {
+//     "ADM",
+//     "OPERADOR"
+// }

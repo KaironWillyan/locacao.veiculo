@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { Axios } from 'axios';
 import { veiculoDto } from '~/models/Dto/veiculoDto';
 
-const axios = useNuxtApp().$axios;
+const veiculoStore = await useVeiculoStore()
 
 let data = ref({
     cor: "",
@@ -12,14 +11,13 @@ let data = ref({
 }as veiculoDto)
 
 async function addVeiculo() {
-    await (axios as Axios)
-      .post('/veiculo', {
+    await veiculoStore
+      .createVeiculo( {
         cor: data.value.cor,
         modelo: data.value.modelo,
         placa: data.value.placa,
         tipo_combustivel: data.value.tipo_combustivel,
     })
-    .then((res: any) => data.value = res.data)
 }
 
 </script>

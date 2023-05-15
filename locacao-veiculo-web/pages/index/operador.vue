@@ -1,22 +1,8 @@
-<script lang="ts" >
-import { Axios } from 'axios';
+<script setup lang="ts" >
 import AddOperador from '~/components/operador/AddOperador.vue';
-import { operadorDto } from '~/models/Dto/operdorDto';
 
-
-export default defineComponent({
-    setup() {
-        const operadores = ref([] as Array<operadorDto>);
-        const axios = useNuxtApp().$axios;
-        const fetchOperador = async () => await (axios as Axios)
-            .get("/operador")
-            .then((res) => (operadores.value = res.data));
-        onMounted(fetchOperador);
-        return { operadores };
-    },
-    components: { AddOperador }
-});
-
+const operadores = await useOperadorStore().getAll()
+ 
 </script>
 
 <template>

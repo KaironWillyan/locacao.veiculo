@@ -1,34 +1,12 @@
 <script lang="ts">
 import AddSetor from '~/components/setor/addSetor.vue';
-import { setorDto } from '~/models/Dto/setorDto';
-import { defineEmits } from 'vue'
-import { Axios } from 'axios';
-import vuex from '~/plugins/vuex';
-
-// const emit = defineEmits<{
-//   (e: 'atualizarSetores', setores: Array<setorDto>): any
-// }>()
-
-const store = vuex
-console.log(store);
 
 export default defineComponent({
-    setup() {
-        const setores = ref([] as Array<setorDto>);
-        const axios = useNuxtApp().$axios;
-        const fetchSetores = async () => await (axios as Axios)
-            .get("/setor")
-            .then((response: any) => (setores.value = response.data));
-        onMounted(fetchSetores);
-
-        // function atualizarSetores(setoresFromEvent: Array<setorDto>) {
-        //   setores.value = setoresFromEvent
-        // }
-
+    async setup() {
+        const setores = await useSetorStore().getAll()        
         return { setores };
     },
     components: { AddSetor },
-    
 })
 
 </script>
@@ -38,7 +16,7 @@ export default defineComponent({
     <div class="main-setor ">
       <h1>Registrar setor</h1>
          <div class="registro-setor ">
-            <AddSetor @atualizarSetores="atualizarSetores"/>
+            <AddSetor/>
          </div>
     </div>
     

@@ -1,26 +1,20 @@
-<script>
-export default defineComponent({
-    setup() {
-        const locacao = ref([]);
-        const context = useNuxtApp();
-        const fetchLocacao = async () => await context.$axios
-            .get("/locar")
-            .then((res) => locacao.value = res.data);
-        onMounted(fetchLocacao.toString().split());
-        return { locacao };
-    },
-});
+<script setup lang="ts">
+import AddLocacao from '~/components/locacao/AddLocacao.vue';
 
+
+const locacoes = await useLocacaoStore().getAll()
 </script>
 
 
 
 <template>
 <div class="main-loca">
-
-    <h1>Registrar locação</h1>
+    <div>
+        <h1>Registrar locação</h1>
+        <AddLocacao/>        
+    </div>
     
-    <p v-for="locacao in locacao">{{locacao}}</p>
+    <p v-for="locacao in locacoes">{{ locacao }}</p>
 </div>
 </template>
 

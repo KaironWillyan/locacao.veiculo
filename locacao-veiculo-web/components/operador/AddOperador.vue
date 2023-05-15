@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { Axios } from 'axios';
 import { operadorDto } from '~/models/Dto/operdorDto';
 
-const axios = useNuxtApp().$axios;
+const operadorStore = await useOperadorStore()
 
 let data = ref ({
     nome: "",
@@ -10,22 +9,20 @@ let data = ref ({
     password: "",
     cpf: "",
     tipo: "",
+    
 } as operadorDto);
 
 async function addOperador() {
-    await (axios as Axios)
-      .post('/operador', {
+    await operadorStore
+      .createOperador({
         nome: data.value.nome,
         email: data.value.email,
         password: data.value.password,
         cpf: data.value.cpf,
         tipo: data.value.tipo,
     })
-    .then((res: any) => data.value = res.data)
 }
 </script>
-
-
 
 <template>
 

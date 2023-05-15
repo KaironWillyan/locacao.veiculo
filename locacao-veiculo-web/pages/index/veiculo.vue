@@ -1,19 +1,6 @@
-<script lang="ts">
-import { Axios } from 'axios';
+<script setup lang="ts">
 import AddVeiculo from '~/components/veiculo/AddVeiculo.vue';
-
-export default defineComponent({
-    setup() {
-        const veiculos = ref([]);
-        const axios = useNuxtApp().$axios;
-        const fetchVeiculo = async () => await (axios as Axios)
-            .get("/veiculo")
-            .then((res) => veiculos.value = res.data);
-        onMounted(fetchVeiculo);
-        return { veiculos };
-    },
-    components: { AddVeiculo }
-});
+    const veiculos = await useVeiculoStore().getAll()
 </script>
 
 <template>
