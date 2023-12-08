@@ -2,6 +2,7 @@ package com.locacao.gerencia.controller;
 
 import com.locacao.gerencia.entities.Funcionario;
 import com.locacao.gerencia.repositories.FuncionarioRepository;
+import com.locacao.gerencia.services.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,77 +17,53 @@ import java.util.Optional;
 public class FuncionarioController {
 
     @Autowired
-    private FuncionarioRepository   funcionarioRepository;
+    private FuncionarioService funcionarioService;
 
     @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping("/funcionario")
     public List<Funcionario> GetFuncionario(){
-        return funcionarioRepository.findAll();
+        return funcionarioService.GetFuncionario();
     }
 
-    @RequestMapping(value = "/funcionario/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/funcionario/{id}")
     public ResponseEntity<Funcionario> GetFuncionarioById(@PathVariable(value = "id") Long id){
-        Optional<Funcionario> funcionario = funcionarioRepository.findById(id);
-        if(funcionario.isPresent()){
-            return new ResponseEntity<Funcionario>(funcionario.get(), HttpStatus.OK);
+        Funcionario funcionario = funcionarioService.GetFuncionarioById(id);
+        if(funcionario ==null){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Funcionário não encontrado."
+            );
         }
-        throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Funcionário não encontrado."
-        );
+            return ResponseEntity.ok(funcionario);
     }
-
-
-//    @RequestMapping(value = "/Funcionario/{nome}", method = RequestMethod.GET)
-//    public ResponseEntity<List<Funcionario>> GetfuncionarioByNome(@RequestParam String nome){
-//        List<Funcionario> funcionario = FuncionarioService.findByNome(nome);
-//        if (funcionario != null){
-//            return new ResponseEntity<Funcionario>(funcionario.get(), HttpStatus.OK);
-//        }
-//        throw new ResponseStatusException(
-//          HttpStatus.NOT_FOUND, "funcionario não encontrado."
-//        );
-//    }
-
 
     @PostMapping("/funcionario")
     public Funcionario PostFuncionario(@Validated @RequestBody Funcionario funcionario){
-        return funcionarioRepository.saveAndFlush(funcionario);
+        return funcionarioService.PostFuncionario(funcionario);
     }
 
     @PutMapping("/funcionario/{id}")
     public ResponseEntity<Funcionario> PutFuncionario(@PathVariable(value = "id") Long id, @Validated @RequestBody Funcionario newFuncionario)
     {
-        Optional<Funcionario> oldFuncionario = funcionarioRepository.findById(id);
-        if(oldFuncionario.isPresent()){
-            Funcionario funcionario = oldFuncionario.get();
-            funcionario.setNome(newFuncionario.getNome());
-            funcionario.setCpf(newFuncionario.getCpf());
-            funcionario.setTelefone(newFuncionario.getTelefone());
-            funcionario.setSetores(newFuncionario.getSetor());
-            funcionario.setTipoCnh(newFuncionario.getTipoCnh());
-            funcionarioRepository.save(funcionario);
-            return new ResponseEntity<Funcionario>(funcionario, HttpStatus.OK);
+        Funcionario funcionario = funcionarioService.GetFuncionarioById(id);
+        if(funcionario==null){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "funcionario não encontrado."
+            );
         }
-        throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "funcionario não encontrado."
-        );
+        funcionarioService.PutFuncionario(id, funcionario);
+        return new ResponseEntity<Funcionario>(funcionario, HttpStatus.OK);
     }
 
     @DeleteMapping("/funcionario/{id}")
     public ResponseEntity<Funcionario> Deletefuncionario(@PathVariable(value = "id") Long id){
-        Optional<Funcionario> funcionario = funcionarioRepository.findById((id));
-        if (funcionario.isPresent()){
-            funcionarioRepository.delete(funcionario.get());
-            return new ResponseEntity<>(HttpStatus.OK);
+        Funcionario funcionario = funcionarioService.GetFuncionarioById(id);
+        if (funcionario == null){
+
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "funcionario não encontrado."
+            );
         }
-        throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "funcionario não encontrado."
-        );
+        return new ResponseEntity<Funcionario>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/funcionario")
-    public ResponseEntity<Funcionario> DeleteAllFuncionario(){
-        funcionarioRepository.deleteAll();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }

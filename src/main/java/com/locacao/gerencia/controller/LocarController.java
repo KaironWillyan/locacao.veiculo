@@ -1,7 +1,7 @@
 package com.locacao.gerencia.controller;
 
 import com.locacao.gerencia.entities.Locar;
-import com.locacao.gerencia.repositories.LocarRepository;
+import com.locacao.gerencia.services.LocarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,64 +15,49 @@ import java.util.Optional;
 @RestController
 public class LocarController {
     @Autowired
-    private LocarRepository locarRepository;
+    private LocarService locarService;
 
     @GetMapping("/locar")
     public List<Locar> GetLocar (){
-        return locarRepository.findAll();
+        return locarService.getLocar();
     }
 
-    @GetMapping("/locar/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Locar> GetLocarById(@PathVariable(value = "id") Long id){
-        Optional<Locar> locacao = locarRepository.findById(id);
-        if (locacao.isPresent()) {
-            return new ResponseEntity<Locar>(locacao.get(), HttpStatus.OK);
+        Locar locacao = locarService.getLocarById(id);
+        if (locacao == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Locar não encontrado."
+            );
         }
-        throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Locar não encontrado."
-        );
+            return ResponseEntity.ok(locacao);
     }
 
-    @PostMapping("/locar")
+    @PostMapping
     public Locar PostLocar(@Validated @RequestBody Locar locacao){
-        return locarRepository.save(locacao);
+        return locarService.postLocar(locacao);
     }
 
     @PutMapping("/locar/{id}")
     public ResponseEntity<Locar> PutLocar(@PathVariable(value = "id") Long id, @Validated @RequestBody Locar newLocar){
-        Optional<Locar> oldLocar = locarRepository.findById(id);
-        if (oldLocar.isPresent()){
-            Locar locacao = oldLocar.get();
-            locacao.setFuncionario(newLocar.getFuncionario());
-            locacao.setOperador(newLocar.getOperador());
-            locacao.setVeiculo(newLocar.getVeiculo());
-            locacao.setDtLocacao(newLocar.getDtLocacao());
-            locacao.setDtEntrega(newLocar.getDtEntrega());
-            locacao.setKmLocacao(newLocar.getKmLocacao());
-            locacao.setKmEntrega(newLocar.getKmEntrega());
-            locarRepository.save(locacao);
-            return new ResponseEntity<Locar>(locacao, HttpStatus.OK);
-        }
-        throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Locacao não encontrado."
-        );
-    }
-
-    @DeleteMapping("/locar")
-    public ResponseEntity<Locar> DeleteAllLocar(){
-        locarRepository.deleteAll();
-        return new ResponseEntity<>(HttpStatus.OK);
+       Locar locar = locarService.putLocar(id, newLocar);
+       if (locar == null) {
+           throw new ResponseStatusException(
+                   HttpStatus.NOT_FOUND, "Locacao não encontrado."
+           );
+       }
+       return ResponseEntity.ok(locar);
     }
 
     @DeleteMapping("/locar/{id}")
-    public ResponseEntity<Locar> DeleteLocar(@PathVariable(value = "id") Long id){
-        Optional<Locar> locar = locarRepository.findById(id);
-        if (locar.isPresent()){
-            locarRepository.delete(locar.get());
-            return new ResponseEntity<>(HttpStatus.OK);
+    public Locar DeleteLocar(@PathVariable(value = "id") Long id){
+       Locar locar = locarService.deleteLocar(id);
+        if (locar == null){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Locar não encontrado"
+            );
         }
-        throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Locar não encontrado"
-        );
+
+        return locar;
     }
 }
